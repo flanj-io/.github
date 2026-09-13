@@ -13,9 +13,9 @@ Integrating is the easy part; keeping the integration alive is the work, and it 
 team that ships an API and the team that consumes it. An open-source SDK and a source-available
 collector run inside your own environment, record the request and response bodies of the calls your
 services make and receive, redact them before they are stored, and detect schema drift with evidence.
-Bodies never leave your environment. A hosted network layer carries an evidence-backed flag across
-the org boundary into a shared thread, where a provider engineer can read the failing call and reply
-without installing anything.
+Raw bodies never leave your environment; a call you flag crosses the boundary redacted, and only when
+you send it. A hosted network layer carries that evidence-backed flag into a shared thread, where a
+provider engineer can read the redacted failing call and reply without installing anything.
 
 ## Repositories
 
@@ -27,5 +27,5 @@ without installing anything.
 ## Elsewhere
 
 - [flanj.io](https://flanj.io) — the site.
-- [drift.flanj.io](https://drift.flanj.io) — a public dataset of description drift across MCP servers,
-  observed daily. A preview until launch.
+- [drift.flanj.io](https://drift.flanj.io) — a daily record of MCP tool-contract drift, breaking schema
+  changes and reworded descriptions, per server per day. A preview until launch.
