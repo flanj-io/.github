@@ -1,6 +1,6 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="profile/flanj-lockup-dark.svg">
-  <img src="profile/flanj-lockup.svg" alt="Flanj" width="166" height="48">
+  <source media="(prefers-color-scheme: dark)" srcset="flanj-lockup-dark.svg">
+  <img src="flanj-lockup.svg" alt="Flanj" width="166" height="48">
 </picture>
 
 # Flanj
