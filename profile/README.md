@@ -5,8 +5,8 @@
 
 # Flanj
 
-Nothing threw. Nothing 500'd. The response was 200 OK and a field was renamed. Your integration
-didn't break — it started being wrong, and every tool that waits for an error is blind to it.
+**Your integration didn't break. It started being wrong.** Every call succeeded. That's why nothing
+caught it.
 
 **Everyone is building ways to evaluate the agent misusing a tool. Nobody evaluates the tool misusing
 the agent.** Agents are the most drift-fragile API consumers anyone has built: an agent reads a
