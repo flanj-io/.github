@@ -25,15 +25,54 @@ REST drift detection needs a spec somebody published and kept accurate; an MCP s
 contract on every single call — `tools/list` **is** the spec — so for MCP there is nothing to
 configure at all. Node is supported; Python is early, MCP client only.
 
+## Get started
+
+The collector runs in your environment; the SDK runs in your app. Two ways to run the collector, both
+from the [collector README](https://github.com/flanj-io/collector#readme):
+
+**Kubernetes (preferred)** — [Run it on Kubernetes](https://github.com/flanj-io/collector#run-it-on-kubernetes)
+
+```bash
+helm install flanj oci://registry-1.docker.io/flanj/flanj-collector \
+  --namespace flanj --create-namespace \
+  --set specToken.value="$(openssl rand -hex 32)"
+```
+
+**Docker** — [Run it with Docker](https://github.com/flanj-io/collector#run-it-with-docker)
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/flanj-io/collector/main/docker-compose.yml
+docker compose up -d
+```
+
+Then point your app at it — `npm install @flanj/sdk` and `node -r @flanj/sdk/register app.js`
+([Node quick start](https://github.com/flanj-io/sdk#quick-start)), or `pip install flanj` and
+`import flanj.register` as the first line ([Python quick start](https://github.com/flanj-io/sdk-py#quick-start)).
+On Docker the SDK's default endpoint is already the collector; on Kubernetes give your workload
+`FLANJ_OTLP_ENDPOINT=http://flanj-collector.flanj:4318/v1/logs`, and for Node the preload as well
+(`NODE_OPTIONS="--require @flanj/sdk/register"`). Make a few calls, open the UI at
+<http://localhost:5335> (on Kubernetes, after `kubectl -n flanj port-forward sts/flanj-flanj-collector-store 5335:5335`)
+and watch **Traffic** fill.
+
+Everything above works with nothing leaving your network. To flag drift to the team on the other side,
+set the collector's control plane to `https://app.flanj.io` (`cp_base_url` in its config, or
+`controlPlane.baseUrl` on the chart) and press **Connect** in its Settings; the confirmation mail adds
+the collector to your workspace at [app.flanj.io](https://app.flanj.io/d).
+
 ## Repositories
 
-- [sdk](https://github.com/flanj-io/sdk) — `@flanj/sdk`, a thin OpenTelemetry distribution for
-  Node that captures HTTP bodies and redacts them at the source. Apache-2.0.
 - [collector](https://github.com/flanj-io/collector) — an OpenTelemetry Collector distribution with
-  redaction, drift detection, a local store and a local UI. Elastic License 2.0.
+  redaction, drift detection, a local store and a local UI; ships as an image and a Helm chart.
+  Elastic License 2.0.
+- [sdk](https://github.com/flanj-io/sdk) — `@flanj/sdk`, a thin OpenTelemetry distribution for
+  Node that captures HTTP bodies and MCP client traffic and redacts them at the source. Apache-2.0.
+- [sdk-py](https://github.com/flanj-io/sdk-py) — `flanj` on PyPI, the same capture for Python's
+  MCP client. Early: MCP only, no HTTP body capture yet. Apache-2.0.
 
 ## Elsewhere
 
 - [flanj.io](https://flanj.io) — the site.
+- [app.flanj.io](https://app.flanj.io/d) — the hosted workspace: every thread you are part of, and the
+  collectors you connected. Signing in with your email creates it.
 - [drift.flanj.io](https://drift.flanj.io) — a daily record of MCP tool-contract drift, breaking schema
-  changes and reworded descriptions, per server per day. A preview until launch.
+  changes and reworded descriptions, per server per day.
