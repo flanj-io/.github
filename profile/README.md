@@ -55,9 +55,9 @@ On Docker the SDK's default endpoint is already the collector; on Kubernetes giv
 and watch **Traffic** fill.
 
 Everything above works with nothing leaving your network. To flag drift to the team on the other side,
-set the collector's control plane to `https://app.flanj.io` (`cp_base_url` in its config, or
-`controlPlane.baseUrl` on the chart) and press **Connect** in its Settings; the confirmation mail adds
-the collector to your workspace at [app.flanj.io](https://app.flanj.io/d).
+open the collector's Settings and press **Connect**: a collector name and a contact email, no token. The
+image and the chart already know the hosted control plane, and nothing is sent until you press Connect;
+the confirmation mail adds the collector to your workspace at [app.flanj.io](https://app.flanj.io/d).
 
 ## Repositories
 
